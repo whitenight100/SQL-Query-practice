@@ -1,0 +1,38 @@
+/* Query 1 */
+SELECT a.AlbumId, a.Title, COUNT(*) AS "Quantity"
+FROM album AS a 
+JOIN track AS b
+ON a.AlbumId = b.AlbumId
+GROUP BY a.AlbumId
+ORDER BY qty desc
+LIMIT 10;
+
+
+/* Query 2 */
+SELECT a.MediaTypeId, a.Name, sum(b.Bytes) AS totalBytes, COUNT(*) AS "Quantity"
+FROM mediatype AS a
+JOIN track AS b
+ON a.MediaTypeId = b.MediaTypeId
+GROUP BY a.Name
+ORDER BY totalBytes desc;
+
+/* Query 3 */
+SELECT a.InvoiceDate, COUNT(*) AS "Invoice Count"
+FROM invoice AS a
+JOIN customer AS b
+ON a.CustomerId = b.CustomerId
+WHERE MONTH(a.InvoiceDate) = 9 
+GROUP BY YEAR(a.InvoiceDate)
+ORDER BY InvoiceDate;
+
+/* Query 4 */
+
+SELECT a.CustomerId, CONCAT(a.FirstName, " ", a.LastName) AS "Customer Name", SUM(c.UnitPrice * c.Quantity) AS "Sum"
+FROM customer AS a 
+JOIN invoice AS b
+ON a.CustomerId = b.CustomerId
+JOIN invoiceline AS c
+ON b.InvoiceId = c.InvoiceId
+GROUP BY a.CustomerId
+ORDER BY Sum DESC
+LIMIT 10;
